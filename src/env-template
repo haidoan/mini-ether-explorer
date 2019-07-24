@@ -1,0 +1,4 @@
+INFURA_ENDPOINT =  'https://kovan.infura.io'
+NODE_ENV = 'dev'
+
+BLOCK_TIME = 10000

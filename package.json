@@ -1,0 +1,30 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "master": "./node_modules/.bin/eslint './src/**/*.js' --fix && nodemon node ./src/app.js",
+    "worker": "./node_modules/.bin/eslint './src/**/*.js' --fix && nodemon node ./src/worker.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "abi-decoder": "^1.2.0",
+    "amqplib": "^0.5.3",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "ioredis": "^4.10.0",
+    "mongodb": "^3.2.7",
+    "mongoose": "^5.6.1",
+    "morgan": "^1.9.1",
+    "validator": "^11.0.0",
+    "web3": "^1.0.0-beta.55",
+    "ws": "^7.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.0.1"
+  }
+}
