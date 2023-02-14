@@ -36,6 +36,10 @@ Create .env file, please refer file env-template
 ```bash
 npm i
 ```
+run docker services
+```
+docker-compose up -d
+```
 run master
 ```bash
 node ./src/app.js
