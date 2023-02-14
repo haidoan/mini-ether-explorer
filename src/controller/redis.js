@@ -1,21 +1,14 @@
 let { client, getRedisClient } = require('../config/redis');
 
-// eslint-disable-next-line require-jsdoc
 const redisHelper = {
-  // async getTokenInfo(tokenAddress) {
-  //   // console.log('getTokenInfo');
-  //   const data = await tsRedis.get(
-  //     process.env.TOPSCREEN_DATA_NAME,
-  //     tokenAddress.toLowerCase()
-  //   );
-  //   return data;
-  // },
-
   async get(key) {
     try {
       if (!client) client = getRedisClient();
       const data = await client.get(key);
-      if (data) return JSON.parse(data);
+      if(!data || isNaN(data)){
+          return {}
+      }
+      return JSON.parse(data);
     } catch (error) {
       console.log('get error', error);
     }
@@ -25,7 +18,7 @@ const redisHelper = {
       if (!client) client = getRedisClient();
       await client.set(key, value);
     } catch (error) {
-      console.log('get error', error);
+      console.log('set error', error);
     }
   },
   async getHash(key, hash) {
@@ -57,13 +50,7 @@ const redisHelper = {
   async loadAllTokens(key) {
     try {
       const allTokenTS = await client.hgetall(key);
-      // console.log(
-      //     'got',
-      //     allTokenTS[0xb44918e6839e83bb4b9568107197f2c546a84425]
-      // );
-      // console.log('111', JSON.parse(allTokenTS));
       const keys = Object.keys(allTokenTS);
-      // console.log('keys', keys);
       const tokenList = [];
       for (let i = 0; i < keys.length; i++) {
         tokenList.push(JSON.parse(allTokenTS[keys[i]]));
@@ -74,20 +61,13 @@ const redisHelper = {
     }
   },
 
-  // saveRedisData(key, data) {
   async setHash(key, tokenAddress, data) {
     try {
       if (!client) client = getRedisClient();
       if (client) {
-        // let readyData = data;
-        // if (typeof data === Object) {
-        //     readyData = JSON.stringify(data);
-        // }
-        console.log('save token data at address :', tokenAddress);
         const res = await client.hset(key, tokenAddress, JSON.stringify(data));
         return res;
       } else {
-        console.log('redis client is null, cant save token');
         return null;
       }
     } catch (error) {
@@ -95,7 +75,6 @@ const redisHelper = {
       return null;
     }
   },
-  // saveRedisData(key, data) {
   async deleteHash(key, hash) {
     try {
       await client.hdel(key, hash);
@@ -106,7 +85,6 @@ const redisHelper = {
   },
 
   async saveAllTokens(key, data) {
-    // console.log('data11 :', JSON.stringify(data, null, 2));
     try {
       client.del(key);
       console.log('done delete redis db with key ', key);

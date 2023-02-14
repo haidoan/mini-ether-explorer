@@ -1,0 +1,32 @@
+version: "3"
+services:
+  mongo:
+    container_name: mongo
+    user: $UID
+    image: mongo:5.0.9
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: "${DB_NAME}"
+      MONGO_USERNAME: "${DB_USERNAME}"
+      MONGO_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+  redis:
+    container_name: redis
+    image: redis:7.0.0-alpine
+    command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/data/redis
+    restart: always
+  rabbitmq:
+    container_name: 'rabbitmq'
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./data/rabbitmq:/data/rabbitmq

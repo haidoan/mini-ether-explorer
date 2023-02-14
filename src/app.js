@@ -22,7 +22,7 @@ app.use('/', api);
 
 async function start() {
   try {
-    initWeb3();
+    // initWeb3();
     await initRabitMQ();
     // initDB(); // worker only
     // initRedis();
@@ -32,9 +32,6 @@ async function start() {
       const publisher = require('./starter/publisher');
       publisher.start();
     });
-    // filterAddress(
-    //   '0x3574bd2cc0c321cce010824ecbf6ab9e54e106f7e23b8f4a8dd5be7c666aafb0'
-    // );
   } catch (error) {
     console.log('app is exited ', error);
     process.exit(1);

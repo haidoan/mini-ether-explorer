@@ -1,6 +1,5 @@
 const rabbit = require('../config/rabbitmq');
 let conn = rabbit.getRabbitInstance();
-
 const filter = require('../controller/filter');
 
 function handleTxs(txs) {
@@ -10,14 +9,8 @@ function handleTxs(txs) {
 }
 
 async function handleRequest(ch, msg) {
-  // const replyQueue = "reply_" + msg.properties.timestamp;
-  // const replyQueue = msg.properties.replyTo;
-  // console.log("replyTo", replyTo);
   const data = JSON.parse(msg.content.toString());
-  console.log('blockNumber ', data.blockNumber);
   handleTxs(data.txs);
-  // send back to apihub
-  // ch.sendToQueue(replyQueue, new Buffer(JSON.stringify(response)));
   // ch.ack(msg);
 }
 
@@ -38,16 +31,8 @@ module.exports = {
         ch.consume(
           queue,
           async function(msg) {
-            // console.log(
-            //   " [x] %s: '%s'",
-            //   msg.fields.routingKey,
-            //   msg.content.toString()
-            // );
             handleRequest(ch, msg);
-          },
-          {
-            noAck: true
-          }
+          },{ noAck: true }
         );
       });
     }

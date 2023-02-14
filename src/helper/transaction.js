@@ -13,7 +13,7 @@ const txController = {
       const newTx = new transactionModel(txPayload);
       newTx.save();
     } catch (error) {
-      console.log('addEtherTx error ', error);
+      throw error
     }
   },
   addTokenTx: txs => {
@@ -33,7 +33,7 @@ const txController = {
         newTx.save();
       });
     } catch (error) {
-      console.log('addTokenTx error ', error);
+      throw error
     }
   }
 };

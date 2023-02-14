@@ -6,8 +6,7 @@ const rabbitPassword = process.env.RABBIT_PASSWORD;
 const rabbitHost = process.env.RABBIT_HOST;
 const rabbitPort = process.env.RABBIT_PORT;
 let rabbitConnectUrl = `amqp://${rabbitUserName}:${rabbitPassword}@${rabbitHost}:${rabbitPort}`;
-if (process.env.NODE_ENV === 'dev') rabbitConnectUrl = 'amqp://localhost';
-console.log('rabbitConnectUrl ', rabbitConnectUrl);
+if (process.env.NODE_ENV === 'localhost') rabbitConnectUrl = 'amqp://localhost';
 // amqp://user:pass@host.com/vhost
 let conn;
 function initRabitMQ() {

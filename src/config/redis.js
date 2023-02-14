@@ -1,13 +1,11 @@
 'use strict';
 require('./environment');
 const Redis = require('ioredis');
-const PORT_REDIS = process.env.PORT_REDIS || 6379;
-const AUTH_REDIS = process.env.AUTH_REDIS;
-const HOST_REDIS = process.env.AUTH_REDIS || '127.0.0.1';
+const PORT_REDIS = process.env.PORT_REDIS;
+const AUTH_REDIS = process.env.REDIS_PASSWORD;
+const HOST_REDIS = process.env.HOST_REDIS;
 
 let client;
-
-// // eslint-disable-next-line require-jsdoc
 function getRedisClient() {
   if (!client) initRedis();
   return client;
@@ -18,7 +16,7 @@ const initRedis = () => {
     host: HOST_REDIS,
     port: PORT_REDIS,
     password: AUTH_REDIS
-  }); // Connect to 127.0.0.1:6379
+  });
 
   client.on('connect', function() {
     console.log(
@@ -32,7 +30,7 @@ const initRedis = () => {
   });
 
   client.on('error', function(err) {
-    console.log('Redis Something went wrong ', process.env.SERVER_NAME, err);
+    console.log('Redis Something went wrong ', process.env.NODE_ENV, err);
   });
 };
 

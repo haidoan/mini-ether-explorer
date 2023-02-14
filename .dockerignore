@@ -1,0 +1,12 @@
+node_modules
+logs
+*.log
+npm-debug.log
+./src/.env
+
+# Docker file
+*Dockerfile*
+
+#data
+../data
+../../data

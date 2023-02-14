@@ -4,48 +4,45 @@ const userController = {
   getUsers: async (req, res) => {
     try {
       const allUser = await redisHelper.getAll('address');
-      res.status(200).send({ status: 'success', data: allUser });
+      return res.status(200).send({ status: 'success', data: allUser });
     } catch (error) {
-      console.log('error happen at loadAllTokens ', error);
-      res.status(500).send({ status: 'failed', error });
+      res.status(500).send({ status: 'failed', message: error.message });
     }
   },
 
   getUser: async (req, res) => {
     try {
       const address = req.params.address;
-      console.log('address ', address);
       const user = await redisHelper.get('address', address.toLowerCase());
-      if (user) res.status(200).send({ address: user });
-      else res.status(200).send('NOT FOUND');
+      if (!user) {
+        return res.status(400).send({ status: 'failed', message: 'USER_NOT_FOUND' });
+      }
+
+      return res.status(200).send({ address: user });
     } catch (error) {
-      res.status(500).send({ error: error });
+      return res.status(500).send({ status: 'failed', message: error.message });
     }
   },
   addUser: async (req, res) => {
     try {
       const address = req.body.address;
-      console.log('address ', address);
-
       await redisHelper.set('address', address.toLowerCase(), true);
-      res
+      return res
         .status(200)
-        .send({ status: 'success', message: 'success save user to db!' });
+        .send({ status: 'success' });
     } catch (error) {
-      res.status(500).send({ error: error });
+      res.status(500).send({ status: 'failed', message: error.message });
     }
   },
   removeUser: async (req, res) => {
     try {
       const address = req.body.address;
-      console.log('address ', address);
-
       await redisHelper.delete('address', address);
-      res
+      return res
         .status(200)
-        .send({ status: 'success', message: 'success remove user from db!' });
+        .send({ status: 'success' });
     } catch (error) {
-      res.status(500).send({ error: error });
+      res.status(500).send({ status: 'failed', message: error.message });
     }
   }
 };
