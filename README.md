@@ -40,7 +40,7 @@ run master
 ```bash
 node ./src/app.js
 ```
-run woker
+run worker
 ```bash
 node ./src/worker.js
 ```
